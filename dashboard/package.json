@@ -1,0 +1,25 @@
+{
+  "name": "winnie-live-dashboard",
+  "version": "1.0.0",
+  "description": "Real-Time Cyber SOC Live Dashboard and 47-Pattern Kill-Chain Attack Classifier for Winnie ESP32 IoT Honeypot",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "simulate": "node server/simulator.js --cli"
+  },
+  "keywords": [
+    "esp32",
+    "honeypot",
+    "soc-dashboard",
+    "cybersecurity",
+    "kill-chain",
+    "mitre-att&ck",
+    "iot-security"
+  ],
+  "author": "VIT Cyber Security Project",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0"
+  }
+}

